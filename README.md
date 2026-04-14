@@ -19,42 +19,8 @@ A full-stack developer collaboration platform with **Student** and **Admin** rol
 - View, activate/deactivate, and delete any user
 - Category breakdown charts
 
----
 
-## 🚀 Quick Start (Local)
-
-### Prerequisites
-- Node.js ≥ 18
-- npm ≥ 9
-- MongoDB Atlas account (free tier works)
-
-### 1. Clone the repository
-```bash
-git clone <your-repo-url>
-cd codeforge
-```
-
-### 2. Setup Backend
-```bash
-cd backend
-npm install
-cp .env.example .env
-# Edit .env with your MongoDB URI and JWT secret
-npm run dev
-# API running at http://localhost:5000
-```
-
-### 3. Setup Frontend
-```bash
-cd ../frontend
-npm install
-cp .env.example .env
-# .env already has: VITE_API_URL=http://localhost:5000/api (no change needed for local)
-npm run dev
-# App running at http://localhost:3000
-```
-
-### 4. Default Admin Login
+### Default Admin Login
 ```
 Email:    admin@codeforge.dev
 Password: Admin@123456
@@ -83,64 +49,6 @@ Password: Admin@123456
 |----------|-------------|---------|
 | `VITE_API_URL` | Backend API base URL | `https://your-api.onrender.com/api` |
 
----
-
-## 🗄️ MongoDB Atlas Setup
-
-1. Go to [mongodb.com/atlas](https://www.mongodb.com/atlas) → Create free account
-2. Create a new **free** cluster (M0)
-3. Under **Security → Database Access**: Create a DB user with read/write permissions
-4. Under **Security → Network Access**: Add IP `0.0.0.0/0` (allow all)
-5. Under **Deployment → Database**: Click **Connect** → **Drivers**
-6. Copy the connection string:
-   ```
-   mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/codeforge?retryWrites=true&w=majority
-   ```
-7. Replace `<username>` and `<password>` with your DB user credentials
-8. Paste into `backend/.env` as `MONGODB_URI`
-
----
-
-## 🚢 Backend Deployment (Render.com)
-
-1. Push your code to GitHub
-2. Go to [render.com](https://render.com) → New → **Web Service**
-3. Connect your GitHub repository
-4. Configure:
-   - **Name**: `codeforge-api`
-   - **Root Directory**: `backend`
-   - **Runtime**: Node
-   - **Build Command**: `npm install`
-   - **Start Command**: `npm start`
-5. Add Environment Variables (from your `backend/.env`):
-   - `MONGODB_URI`
-   - `JWT_SECRET`
-   - `JWT_EXPIRES_IN` = `7d`
-   - `NODE_ENV` = `production`
-   - `ADMIN_EMAIL`
-   - `ADMIN_PASSWORD`
-   - `ADMIN_USERNAME`
-   - `FRONTEND_URL` = your Vercel URL (add after frontend deploy)
-6. Click **Create Web Service**
-7. Copy your Render URL: `https://codeforge-api.onrender.com`
-
----
-
-## 🌐 Frontend Deployment (Vercel)
-
-1. Go to [vercel.com](https://vercel.com) → New Project
-2. Import your GitHub repository
-3. Configure:
-   - **Framework Preset**: Vite
-   - **Root Directory**: `frontend`
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `dist`
-4. Add Environment Variable:
-   - `VITE_API_URL` = `https://codeforge-api.onrender.com/api`
-5. Click **Deploy**
-6. Copy your Vercel URL and update `FRONTEND_URL` in Render backend env vars
-
----
 
 ## 🔄 Alternative: Railway Deployment (Backend)
 
@@ -280,8 +188,3 @@ codeforge/
 - Protected admin endpoints with double middleware
 - Token auto-removal on 401 responses
 
----
-
-## 📝 License
-
-MIT — Free to use and modify.
