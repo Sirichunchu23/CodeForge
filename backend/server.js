@@ -13,7 +13,7 @@ const adminRoutes = require('./routes/admin.routes');
 const app = express();
 
 // Middleware
-const cors = require("cors");
+
 
 app.use(cors({
   origin: "https://code-forge-ho6sn6dr3-sirichunchu123-9954s-projects.vercel.app",
