@@ -15,13 +15,24 @@ const app = express();
 // Middleware
 
 
+const allowedOrigins = [
+  "https://code-forge-ho6sn6dr3-sirichunchu123-9954s-projects.vercel.app",
+  "https://code-forge-lac.vercel.app"
+];
+
 app.use(cors({
-  origin: [
-    "https://code-forge-ho6sn6dr3-sirichunchu123-9954s-projects.vercel.app",
-    "https://code-forge-lac.vercel.app"
-  ],
+  origin: function (origin, callback) {
+    // allow requests with no origin (like Postman)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } 
+    return callback(null,false);
+  },
   credentials: true
 }));
+
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
