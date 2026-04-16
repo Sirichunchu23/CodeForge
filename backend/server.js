@@ -16,7 +16,10 @@ const app = express();
 
 
 app.use(cors({
-  origin: "https://code-forge-ho6sn6dr3-sirichunchu123-9954s-projects.vercel.app",
+  origin: [
+    "https://code-forge-ho6sn6dr3-sirichunchu123-9954s-projects.vercel.app",
+    "https://code-forge-lac.vercel.app"
+  ],
   credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));
