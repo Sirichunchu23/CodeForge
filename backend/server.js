@@ -13,9 +13,11 @@ const adminRoutes = require('./routes/admin.routes');
 const app = express();
 
 // Middleware
+const cors = require("cors");
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || '*',
-  credentials: true,
+  origin: "https://code-forge-ho6sn6dr3-sirichunchu123-9954s-projects.vercel.app",
+  credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
