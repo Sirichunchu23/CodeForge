@@ -4,13 +4,28 @@ const Post = require('../models/Post.model');
 // GET /api/admin/stats
 const getStats = async (req, res, next) => {
   try {
-    const [totalUsers, totalStudents, totalPosts, recentUsers, recentPosts] = await Promise.all([
+    const [totalUsers, totalStudents, totalPosts, recentUsers] = await Promise.all([
   User.countDocuments({ isActive: true }),
   User.countDocuments({ isActive: true, role: 'student' }),
   Post.countDocuments({ isActive: true }),
-  User.find({ isActive: true }).sort({ createdAt: -1 }).limit(5).select('username email role createdAt'),
-  Post.find({ isActive: true }).sort({ createdAt: -1 }).limit(5).populate('author', 'username').select('title category createdAt author likes'),
+  User.find({ isActive: true })
+    .sort({ createdAt: -1 })
+    .limit(5)
+    .select('username email role createdAt'),
 ]);
+
+const recentPosts = await Post.find({
+  isActive: true,
+  author: { $ne: null }
+})
+  .sort({ createdAt: -1 })
+  .limit(5)
+  .populate({
+    path: 'author',
+    select: 'username',
+    options: { strictPopulate: false }
+  })
+  .select('title category createdAt author likes');
 
     // Posts per category
     const categoryStats = await Post.aggregate([
