@@ -5,27 +5,30 @@ const Post = require('../models/Post.model');
 const getStats = async (req, res, next) => {
   try {
     const [totalUsers, totalStudents, totalPosts, recentUsers] = await Promise.all([
-  User.countDocuments({ isActive: true }),
-  User.countDocuments({ isActive: true, role: 'student' }),
-  Post.countDocuments({ isActive: true }),
-  User.find({ isActive: true })
-    .sort({ createdAt: -1 })
-    .limit(5)
-    .select('username email role createdAt'),
-]);
+      User.countDocuments({ isActive: true }),
+      User.countDocuments({ isActive: true, role: 'student' }),
+      Post.countDocuments({ isActive: true }),
+      User.find({ isActive: true })
+        .sort({ createdAt: -1 })
+        .limit(5)
+        .select('username email role createdAt'),
+    ]);
 
-const recentPosts = await Post.find({
-  isActive: true,
-  author: { $ne: null }
-})
-  .sort({ createdAt: -1 })
-  .limit(5)
-  .populate({
-    path: 'author',
-    select: 'username',
-    options: { strictPopulate: false }
-  })
-  .select('title category createdAt author likes');
+    const recentPosts = await Post.find({
+      isActive: true,
+      author: { $ne: null }
+    })
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .populate({
+        path: 'author',
+        select: 'username',
+        options: { strictPopulate: false }
+      })
+      .select('title category createdAt author likes');
+
+    // ✅ FIXED LINE
+    const totalAdmins = await User.countDocuments({ role: 'admin', isActive: true });
 
     // Posts per category
     const categoryStats = await Post.aggregate([
@@ -38,7 +41,7 @@ const recentPosts = await Post.find({
       stats: {
         totalUsers,
         totalStudents,
-        totalAdmins: totalUsers - totalStudents,
+        totalAdmins,
         totalPosts,
         recentUsers,
         recentPosts,
